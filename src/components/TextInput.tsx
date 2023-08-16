@@ -1,5 +1,5 @@
 // Third party imports
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 // Local imports
 import '../App.css';
@@ -8,9 +8,10 @@ interface iTextInputProps{
   label: string;
   value: string;
   onValueChange: (newValue: string) => void;
+  isInvalid?: boolean;
 }
 
-export const TextInput = ({ label, value, onValueChange }: iTextInputProps) => {
+export const TextInput = ({ label, value, onValueChange, isInvalid }: iTextInputProps) => {
   
   // Convenience method for automatically setting id. Doing this in a production 
   // setting get you into trouble; in my experience it's better to explicity set id. 
@@ -24,7 +25,7 @@ export const TextInput = ({ label, value, onValueChange }: iTextInputProps) => {
   return(
     <div>
       <label htmlFor={id} className='form-label'>{label}</label>
-      <input type='text' value={value} id={id} onChange={onInputChange}></input>
+      <input type='text' value={value} id={id} onChange={onInputChange} className={isInvalid ? 'invalid' : ''}></input>
     </div>
   );
 };

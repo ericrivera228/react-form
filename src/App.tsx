@@ -71,6 +71,10 @@ function App() {
     return true;
   };
 
+  const isEmailInvalid = (): boolean => {
+    return !formValue.email.includes('@') || !formValue.email.includes('.');
+  };
+
   return (
     <div className="App">
       <form className='form' onSubmit={onSubmit}>
@@ -82,10 +86,10 @@ function App() {
           <TextInput label='Last Name' value={formValue.lastName} onValueChange={(newValue: string) => onInputValueChange('lastName', newValue)} />
           <TextInput label='State' value={formValue.state} onValueChange={(newValue: string) => onInputValueChange('state', newValue)} />
           <TextInput label='City' value={formValue.city} onValueChange={(newValue: string) => onInputValueChange('city', newValue)} />
-          <TextInput label='Email' value={formValue.email} onValueChange={(newValue: string) => onInputValueChange('email', newValue)} />
+          <TextInput label='Email' value={formValue.email} onValueChange={(newValue: string) => onInputValueChange('email', newValue)} isInvalid={isEmailInvalid()} />
           <TextInput label='Password' value={formValue.password} onValueChange={(newValue: string) => onInputValueChange('password', newValue)}/>
         </div>
-        <input type='submit' value='submit' disabled={!isFormValid()} />
+        <input type='submit' value='Submit' disabled={!isFormValid()} />
       </form>
     </div>
   );

@@ -9,3 +9,9 @@
 .form-label{
   margin-right: 10px;
 }
+
+input.invalid{
+  background-color: ivory;
+  border: none;
+  outline: 2px solid red;
+}
