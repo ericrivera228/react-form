@@ -1,24 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import { TextInput } from './components/TextInput';
+
 function App() {
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+    // Don't need to do the default form submission since we're handling it manually
+    event.preventDefault();
+
+    console.log('Hey, listen!');
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form className='form' onSubmit={onSubmit}>
+        <div className='form-header'>
+          Please enter your information using the form below: 
+        </div>
+        <div className='form-body'>
+          <TextInput label='First Name' />
+          <TextInput label='Last Name' />
+          <TextInput label='State' />
+          <TextInput label='City' />
+          <TextInput label='Email' />
+          <TextInput label='Password' />
+        </div>
+        <input type='submit' value='submit' />
+      </form>
     </div>
   );
 }
