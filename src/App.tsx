@@ -32,11 +32,10 @@ const emptyForm: iFormValue = {
 
 function App() {
 
-  const { error, getCities, stateOptions, stateOptionsLoading, cityOptionsLoading } = useUniversalApi();
-
   const [ formValue, setFormValue ] = useState<iFormValue>(emptyForm);
   const [ cityOptions, setCityOptions ] = useState<string[]>([]);
 
+  const { error, getCities, stateOptions, stateOptionsLoading, cityOptionsLoading } = useUniversalApi();
 
   /**
    * Method that converts the form value into a string representing a JSON post request.

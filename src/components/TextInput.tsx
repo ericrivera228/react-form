@@ -37,9 +37,13 @@ export const TextInput = ({ label, value, onValueChange, validationRule }: iText
   };
   
   return(
-    <div>
-      <label htmlFor={id} className='form-label'>{label}</label>
-      <input type='text' value={value} id={id} onChange={onInputChange} className={!isValid ? 'invalid' : ''}></input>
+    <div className='text-input'>
+      <div>
+        <label htmlFor={id}>{label}</label>
+      </div>
+      <div>
+        <input type='text' value={value} id={id} onChange={onInputChange} className={!isValid ? 'invalid' : ''}></input>
+      </div>
     </div>
   );
 };

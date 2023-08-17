@@ -22,22 +22,28 @@ export const DropDownList = ({ label, value, options, onValueChange, isLoading }
   };
   
   return(
-    <div>
-      <label htmlFor={id} className='form-label'>{label}</label>
-      <select name="selectList" id={id} value={value} onChange={onSelectChange} disabled={options.length === 0}>
+    <div className='drop-down-list'>
+      <div>
+        <label htmlFor={id}>{label}</label>
+      </div>
 
-        {isLoading && (
-          <option  value=''>Loading...</option>  
-        )}
+      <div>
+        <select name="selectList" id={id} value={value} onChange={onSelectChange} disabled={options.length === 0}>
 
-        {!isLoading && (
-          <React.Fragment>
-            <option  value=''></option>
-            {options.map((option) => <option value={option} key={option}>{option}</option>)}
-          </React.Fragment>
-        )}
+          {isLoading && (
+            <option  value=''>Loading...</option>  
+          )}
 
-      </select>
+          {!isLoading && (
+            <React.Fragment>
+              <option  value=''></option>
+              {options.map((option) => <option value={option} key={option}>{option}</option>)}
+            </React.Fragment>
+          )}
+
+        </select>
+      </div>
+    
     </div>
     
   );

@@ -17,8 +17,52 @@
   margin-bottom: 20px;
 }
 
-.form-label{
-  margin-right: 10px;
+.form{
+  width: 225px;
+}
+
+.text-input,
+.drop-down-list{
+  margin-bottom: 10px;
+}
+
+.text-input,
+.text-input > div,
+.text-input input[type=text],
+.drop-down-list,
+.drop-down-list > div,
+.drop-down-list select{
+  width: 100%;
+}
+
+.form label{
+  display: block;
+  margin-bottom: 3px;
+  color: rgba(0, 0, 0, 0.65)
+}
+
+.text-input input[type=text],
+.drop-down-list select{
+  display: inline;
+  border: 1px solid rgba(0, 0, 0, 0.65);
+  border-radius: 3px;
+  padding: 3px 3px;
+  border-style: solid;
+  box-sizing: border-box;
+}
+
+.form input[type=submit]{
+  margin-top: 20px;
+  height: 36px;
+  padding: 6px 16px;
+}
+
+.form input[type=submit]:not([disabled]){
+  color: red;
+  background-color: rgb(25, 118, 210);
+  border-color: rgb(25, 118, 210);
+  color: white;
+  cursor: pointer;
 }
 
 input.invalid{
