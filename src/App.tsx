@@ -40,23 +40,6 @@ function App() {
 
   const { error, getCities, stateOptions, stateOptionsLoading, cityOptionsLoading } = useUniversalApi();
 
-  /**
-   * Method that converts the form value into a string representing a JSON post request.
-   */
-  const buildPostString = (formValue: iFormValue) => {
-
-    let printString = '{\n';
-
-    // Loop through each of the fields and add it to the print string
-    Object.keys(formValue).forEach(key => {
-      printString += `\t${key}: ${formValue[key as keyof iFormValue]}\n`;
-    });
-
-    printString += '\n}';
-
-    return printString;
-  };
-
   useEffect(() => {
 
     if(formValue.state){
@@ -72,17 +55,49 @@ function App() {
 
   }, [ formValue.state ]);
 
+  /**
+   * Handler for when the user clicks the 'submit' button. Prints the form values to
+   * the console.
+   * 
+   * @param event Source event from the submit button
+   */
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 
     // Don't need to do the default form submission since we're handling it manually
     event.preventDefault();
 
+    // Convert the form value to a post string, and log it
     console.log(buildPostString(formValue));
   };
 
+  /**
+   * Convenience method for updating the FormValue state object. Applies the
+   * new value to FormValue and updates state.
+   * 
+   * @param fieldName Name of the field to update in the FormValue object.
+   * @param value New value of the field.
+   */
   const onInputValueChange = (fieldName: string, value: string) => {
     const newFormValue = { ...formValue };
     newFormValue[fieldName as keyof iFormValue] = value;
+
+    setFormValue(newFormValue);
+  };
+
+  /**
+   * Special handler for when the value of the state field changes. Beacause city 
+   * is dependent on state, whenever the state changes the city field needs to be 
+   * cleared out as well. Applies the new state value to FormValue, clears out the
+   * city, and updates state.
+   * 
+   * @param newValue New value for the state field of the FormValue variable
+   */
+  const onStateValueChange = (newValue: string) => {
+    setCityOptions([]);
+    
+    const newFormValue = { ...formValue };
+    newFormValue.city = '';
+    newFormValue.state = newValue;
 
     setFormValue(newFormValue);
   };
@@ -119,14 +134,21 @@ function App() {
     return value.includes('@') && value.includes('.');
   };
 
-  const onStateValueChange = (newValue: string) => {
-    setCityOptions([]);
-    
-    const newFormValue = { ...formValue };
-    newFormValue.city = '';
-    newFormValue.state = newValue;
+  /**
+   * Method that converts the form value into a string representing a JSON post request.
+   */
+  const buildPostString = (formValue: iFormValue) => {
 
-    setFormValue(newFormValue);
+    let printString = '{\n';
+
+    // Loop through each of the fields and add it to the print string
+    Object.keys(formValue).forEach(key => {
+      printString += `\t${key}: ${formValue[key as keyof iFormValue]}\n`;
+    });
+
+    printString += '\n}';
+
+    return printString;
   };
 
   return (
