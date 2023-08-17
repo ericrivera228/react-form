@@ -13,5 +13,5 @@
 input.invalid{
   background-color: ivory;
   border: none;
-  outline: 2px solid red;
+  outline: 1px solid red;
 }

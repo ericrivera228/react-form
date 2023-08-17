@@ -64,15 +64,22 @@ function App() {
       }
     });
 
-    if(!formValue.email.includes('@') || !formValue.email.includes('.')){
-      return false;
-    }
+    // If the code made it down here, then all inputs have a value
+    // Email has it's own addition rule, so at this point the validity
+    // of the wile form rests on the email field.
+    return isEmailValid(formValue.email);
 
-    return true;
   };
 
-  const isEmailInvalid = (): boolean => {
-    return !formValue.email.includes('@') || !formValue.email.includes('.');
+  /**
+   * Validation method for email field. An email is said to be valid if it contains
+   * both a '@' and '.' character.
+   * 
+   * @param value Value to check
+   * @returns True if the given value is a valid email, false if otherwise.
+   */
+  const isEmailValid = (value: string): boolean => {
+    return value.includes('@') && value.includes('.');
   };
 
   return (
@@ -86,7 +93,7 @@ function App() {
           <TextInput label='Last Name' value={formValue.lastName} onValueChange={(newValue: string) => onInputValueChange('lastName', newValue)} />
           <TextInput label='State' value={formValue.state} onValueChange={(newValue: string) => onInputValueChange('state', newValue)} />
           <TextInput label='City' value={formValue.city} onValueChange={(newValue: string) => onInputValueChange('city', newValue)} />
-          <TextInput label='Email' value={formValue.email} onValueChange={(newValue: string) => onInputValueChange('email', newValue)} isInvalid={isEmailInvalid()} />
+          <TextInput label='Email' value={formValue.email} onValueChange={(newValue: string) => onInputValueChange('email', newValue)} validationRule={isEmailValid} />
           <TextInput label='Password' value={formValue.password} onValueChange={(newValue: string) => onInputValueChange('password', newValue)}/>
         </div>
         <input type='submit' value='Submit' disabled={!isFormValid()} />
