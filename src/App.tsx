@@ -57,6 +57,12 @@ function App() {
     console.log(printString);
   };
 
+  /**
+   * Method that determines if the form is valid or not. The form is valid when
+   * all inputs are not empty, and email passes it's special validation.
+   * 
+   * @returns True if the whole form is valid, false if otherwise.
+   */
   const isFormValid = () => {
     Object.keys(formValue).forEach(key => {
       if(!formValue[key as keyof iFormValue]){
