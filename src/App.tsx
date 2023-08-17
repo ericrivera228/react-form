@@ -12,6 +12,9 @@ import { useUniversalApi } from './hooks/useUniversalApi';
 // Style imports
 import './App.css';
 
+/**
+ * Interface representing the values in the form.
+ */
 export interface iFormValue{
   firstName: string;
   lastName: string;
@@ -136,8 +139,8 @@ function App() {
         <div>
           <TextInput label='First Name' value={formValue.firstName} onValueChange={(newValue: string) => onInputValueChange('firstName', newValue)}  />
           <TextInput label='Last Name' value={formValue.lastName} onValueChange={(newValue: string) => onInputValueChange('lastName', newValue)} />
-          <DropDownList label='State' value={formValue.state} options={stateOptions} onValueChange={onStateValueChange} isLoading={stateOptionsLoading} />
-          <DropDownList label='City' value={formValue.city} options={cityOptions} onValueChange={(newValue: string) => onInputValueChange('city', newValue)} isLoading={cityOptionsLoading} />
+          <DropDownList label='State' value={formValue.state} options={stateOptions} areOptionsLoading={stateOptionsLoading} onValueChange={onStateValueChange} />
+          <DropDownList label='City' value={formValue.city} options={cityOptions} areOptionsLoading={cityOptionsLoading} onValueChange={(newValue: string) => onInputValueChange('city', newValue)} />
           <TextInput label='Email' value={formValue.email} onValueChange={(newValue: string) => onInputValueChange('email', newValue)} validationRule={isEmailValid} />
           <TextInput label='Password' value={formValue.password} onValueChange={(newValue: string) => onInputValueChange('password', newValue)}/>
         </div>
