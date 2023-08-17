@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const API_TOKEN = 'M-QfduLo5NJMNO6c-4KoniosLmyJ-GXTKGnNHMlZBd1l9YAthvfzICCzaAQ_iwFnmss';
 const USER_EMAIL = 'ericrivera228@gmail.com';
@@ -13,16 +13,22 @@ export const useUniversalApi = () => {
 
   const [ stateOptions, setStateOptions ] = useState<string[]>([]);
 
+  const initialized = useRef(false);
+
   // Fetch the access token on the initial load
   useEffect(() => {
-    console.log('Getting access token');
+    if (!initialized.current) {
 
-    getAccessToken().then(
-      (jsonTokenResponse) => {
-        setAccessToken((jsonTokenResponse as any).auth_token);
-      },
-      (error: Error) => handleApiError(error.message)
-    );
+      console.log('Getting access token');
+
+      initialized.current = true;
+      getAccessToken().then(
+        (jsonTokenResponse) => {
+          setAccessToken((jsonTokenResponse as any).auth_token);
+        },
+        (error: Error) => handleApiError(error.message)
+      );
+    }
   }, []);
 
   // Fetch the states when the access token is available
@@ -65,6 +71,9 @@ export const useUniversalApi = () => {
   };
 
   const getCities = (state: string): Promise<string[]> => {
+
+    console.log('Fetching cities for: ' + state);
+
     return fetch(`https://www.universal-tutorial.com/api/cities/${state}`, buildRequest(accessToken)).then((res) => handleResponse(res)).then(
       (jsonCitiesResponse) => {
         return jsonCitiesResponse.map((x: any) => x.city_name);

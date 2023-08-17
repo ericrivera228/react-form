@@ -33,12 +33,16 @@ export const Form = ({ handleSubmit, stateOptions, getCities }: iFormProps) => {
 
   useEffect(() => {
 
-    const fetchData = async () => {
-      const data = await getCities(formValue.state);
-      setCityOptions(data);
-    };
+    if(formValue.state){
 
-    fetchData();
+      const fetchData = async () => {
+        const data = await getCities(formValue.state);
+        setCityOptions(data);
+      };
+  
+      fetchData();
+    }
+
 
   }, [ formValue.state ]);
 
