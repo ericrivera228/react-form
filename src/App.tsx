@@ -1,7 +1,15 @@
+// React imporst
 import React, { useState } from 'react';
-import './App.css';
 
+// Component imports
 import { TextInput } from './components/TextInput';
+import { ErrorBox } from './components/ErrorBox';
+
+// Hook imports
+import { useUniversalApi } from './hooks/useUniversalApi';
+
+// Style imports
+import './App.css';
 
 interface iFormValue{
   firstName: string;
@@ -24,6 +32,8 @@ const emptyForm: iFormValue = {
 function App() {
 
   const [ formValue, setFormValue ] = useState<iFormValue>(emptyForm);
+  
+  const { error } = useUniversalApi();
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 
@@ -90,20 +100,26 @@ function App() {
 
   return (
     <div className="App">
-      <form className='form' onSubmit={onSubmit}>
-        <div className='form-header'>
-          Please enter your information using the form below: 
-        </div>
-        <div className='form-body'>
-          <TextInput label='First Name' value={formValue.firstName} onValueChange={(newValue: string) => onInputValueChange('firstName', newValue)}  />
-          <TextInput label='Last Name' value={formValue.lastName} onValueChange={(newValue: string) => onInputValueChange('lastName', newValue)} />
-          <TextInput label='State' value={formValue.state} onValueChange={(newValue: string) => onInputValueChange('state', newValue)} />
-          <TextInput label='City' value={formValue.city} onValueChange={(newValue: string) => onInputValueChange('city', newValue)} />
-          <TextInput label='Email' value={formValue.email} onValueChange={(newValue: string) => onInputValueChange('email', newValue)} validationRule={isEmailValid} />
-          <TextInput label='Password' value={formValue.password} onValueChange={(newValue: string) => onInputValueChange('password', newValue)}/>
-        </div>
-        <input type='submit' value='Submit' disabled={!isFormValid()} />
-      </form>
+
+      { error && <ErrorBox errorMessage={error} />}
+
+      {!error && (
+        <form className='form' onSubmit={onSubmit}>
+          <div className='form-header'>
+            Please enter your information using the form below: 
+          </div>
+          <div className='form-body'>
+            <TextInput label='First Name' value={formValue.firstName} onValueChange={(newValue: string) => onInputValueChange('firstName', newValue)}  />
+            <TextInput label='Last Name' value={formValue.lastName} onValueChange={(newValue: string) => onInputValueChange('lastName', newValue)} />
+            <TextInput label='State' value={formValue.state} onValueChange={(newValue: string) => onInputValueChange('state', newValue)} />
+            <TextInput label='City' value={formValue.city} onValueChange={(newValue: string) => onInputValueChange('city', newValue)} />
+            <TextInput label='Email' value={formValue.email} onValueChange={(newValue: string) => onInputValueChange('email', newValue)} validationRule={isEmailValid} />
+            <TextInput label='Password' value={formValue.password} onValueChange={(newValue: string) => onInputValueChange('password', newValue)}/>
+          </div>
+          <input type='submit' value='Submit' disabled={!isFormValid()} />
+        </form>
+      )}
+
     </div>
   );
 }

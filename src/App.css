@@ -2,6 +2,16 @@
   padding: 30px;
 }
 
+.error-box{
+  border: 1px red solid;
+  padding: 10px;
+  background-color: rgb(255, 0, 0, 0.5);
+}
+
+.error-box > .error-message{
+  padding-top: 10px;
+}
+
 .form-header{
   margin-bottom: 20px;
 }
