@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { TextInput } from './TextInput';
 
-interface iFormValue{
+export interface iFormProps{
+  handleSubmit: (formValue: iFormValue) => void;
+}
+
+export interface iFormValue{
   firstName: string;
   lastName: string;
   state: string;
@@ -19,7 +23,7 @@ const emptyForm: iFormValue = {
   password: ''
 };
 
-export const Form = () => {
+export const Form = ({ handleSubmit }: iFormProps) => {
 
   const [ formValue, setFormValue ] = useState<iFormValue>(emptyForm);
 
@@ -28,7 +32,7 @@ export const Form = () => {
     // Don't need to do the default form submission since we're handling it manually
     event.preventDefault();
 
-    console.log(buildPostString());
+    handleSubmit(formValue);
   };
 
   const onInputValueChange = (fieldName: string, value: string) => {
@@ -36,23 +40,6 @@ export const Form = () => {
     newFormValue[fieldName as keyof iFormValue] = value;
 
     setFormValue(newFormValue);
-  };
-
-  /**
-   * Method that converts the form value into a string representing a JSON post request.
-   */
-  const buildPostString = () => {
-
-    let printString = '{\n';
-
-    // Loop through each of the fields and add it to the print string
-    Object.keys(formValue).forEach(key => {
-      printString += `\t${key}: ${formValue[key as keyof iFormValue]}\n`;
-    });
-
-    printString += '\n}';
-
-    console.log(printString);
   };
 
   /**
