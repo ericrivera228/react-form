@@ -3,6 +3,7 @@ import React, { ChangeEvent, useState } from 'react';
 
 // Local imports
 import '../App.css';
+import { labelToId } from '../helpers';
 
 interface iTextInputProps{
   label: string;
@@ -18,10 +19,7 @@ export const TextInput = ({ label, value, onValueChange, validationRule }: iText
   
   const [ isValid, setIsValid ] = useState(true);
 
-  // Convenience method for automatically setting id. Doing this in a production 
-  // setting get you into trouble; in my experience it's better to explicity set id. 
-  // But for this little app it works just fine :)
-  const id = label.replace(' ', '-').toLowerCase();
+  const id = labelToId(label);
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 

@@ -93,14 +93,23 @@ export const Form = ({ handleSubmit, stateOptions, getCities }: iFormProps) => {
     return value.includes('@') && value.includes('.');
   };
 
+  const onStateValueChange = (newValue: string) => {
+    setCityOptions([]);
+    
+    const newFormValue = { ...formValue };
+    newFormValue.city = '';
+    newFormValue.state = newValue;
+
+    setFormValue(newFormValue);
+  };
+
   return(
     <form className='form' onSubmit={onSubmit}>
       <div>
         <TextInput label='First Name' value={formValue.firstName} onValueChange={(newValue: string) => onInputValueChange('firstName', newValue)}  />
         <TextInput label='Last Name' value={formValue.lastName} onValueChange={(newValue: string) => onInputValueChange('lastName', newValue)} />
-        {/* <TextInput label='State' value={formValue.state} onValueChange={(newValue: string) => onInputValueChange('state', newValue)} /> */}
-        <DropDownList label='State' value={formValue.state} options={stateOptions} />
-        <TextInput label='City' value={formValue.city} onValueChange={(newValue: string) => onInputValueChange('city', newValue)} />
+        <DropDownList label='State' value={formValue.state} options={stateOptions} onValueChange={onStateValueChange} />
+        <DropDownList label='City' value={formValue.city} options={cityOptions} onValueChange={(newValue: string) => onInputValueChange('city', newValue)} />
         <TextInput label='Email' value={formValue.email} onValueChange={(newValue: string) => onInputValueChange('email', newValue)} validationRule={isEmailValid} />
         <TextInput label='Password' value={formValue.password} onValueChange={(newValue: string) => onInputValueChange('password', newValue)}/>
       </div>
