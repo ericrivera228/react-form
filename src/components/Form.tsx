@@ -88,10 +88,7 @@ export const Form = () => {
 
   return(
     <form className='form' onSubmit={onSubmit}>
-      <div className='form-header'>
-        Please enter your information using the form below: 
-      </div>
-      <div className='form-body'>
+      <div>
         <TextInput label='First Name' value={formValue.firstName} onValueChange={(newValue: string) => onInputValueChange('firstName', newValue)}  />
         <TextInput label='Last Name' value={formValue.lastName} onValueChange={(newValue: string) => onInputValueChange('lastName', newValue)} />
         <TextInput label='State' value={formValue.state} onValueChange={(newValue: string) => onInputValueChange('state', newValue)} />

@@ -18,6 +18,9 @@ function App() {
   return (
     <div className="App">
       { error && <ErrorBox errorMessage={error} />}
+      <div className='instructions'>
+        Please enter your information using the form below: 
+      </div>
       <Form />
     </div>
   );
