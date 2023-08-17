@@ -9,10 +9,11 @@ interface iDropDownListProps{
   label: string;
   value: string;
   options: string[];
+  isLoading: boolean;
   onValueChange: (newValue: string) => void;
 }
 
-export const DropDownList = ({ label, value, options, onValueChange }: iDropDownListProps) => {
+export const DropDownList = ({ label, value, options, onValueChange, isLoading }: iDropDownListProps) => {
 
   const id = labelToId(label);
 
@@ -24,8 +25,18 @@ export const DropDownList = ({ label, value, options, onValueChange }: iDropDown
     <div>
       <label htmlFor={id} className='form-label'>{label}</label>
       <select name="selectList" id={id} value={value} onChange={onSelectChange} disabled={options.length === 0}>
-        <option  value=''></option>
-        {options.map((option) => <option value={option} key={option}>{option}</option>)}
+
+        {isLoading && (
+          <option  value=''>Loading...</option>  
+        )}
+
+        {!isLoading && (
+          <React.Fragment>
+            <option  value=''></option>
+            {options.map((option) => <option value={option} key={option}>{option}</option>)}
+          </React.Fragment>
+        )}
+
       </select>
     </div>
     

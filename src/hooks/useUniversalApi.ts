@@ -12,6 +12,8 @@ export const useUniversalApi = () => {
   const [ accessToken, setAccessToken ] = useState<string>();
 
   const [ stateOptions, setStateOptions ] = useState<string[]>([]);
+  const [ stateOptionsLoading, setStateOptionsLoading ] = useState(true);
+  const [ cityOptionsLoading, setCityOptionsLoading ] = useState(false);
 
   const initialized = useRef(false);
 
@@ -34,11 +36,18 @@ export const useUniversalApi = () => {
   // Fetch the states when the access token is available
   useEffect(() => {
     if(accessToken){
+
+      setStateOptionsLoading(true);
+
       getUsaStates().then(
         (jsonStatesResponse) => {
           setStateOptions(jsonStatesResponse.map((x: any) => x.state_name));
+          setStateOptionsLoading(false);
         },
-        (error: Error) => handleApiError(error.message)
+        (error: Error) => {
+          handleApiError(error.message);
+          setStateOptionsLoading(false);
+        }
       );
     }
   }, [ accessToken ]);
@@ -72,13 +81,15 @@ export const useUniversalApi = () => {
 
   const getCities = (state: string): Promise<string[]> => {
 
-    console.log('Fetching cities for: ' + state);
+    setCityOptionsLoading(true);
 
     return fetch(`https://www.universal-tutorial.com/api/cities/${state}`, buildRequest(accessToken)).then((res) => handleResponse(res)).then(
       (jsonCitiesResponse) => {
+        setCityOptionsLoading(false);
         return jsonCitiesResponse.map((x: any) => x.city_name);
       },
       (error: Error) => {
+        setCityOptionsLoading(false);
         handleApiError(error.message);
         return [];
       }
@@ -122,7 +133,9 @@ export const useUniversalApi = () => {
   return {
     error,
     getCities,
-    stateOptions
+    stateOptions,
+    stateOptionsLoading,
+    cityOptionsLoading
   };
 
 };
