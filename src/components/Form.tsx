@@ -3,6 +3,7 @@ import { TextInput } from './TextInput';
 
 export interface iFormProps{
   handleSubmit: (formValue: iFormValue) => void;
+  getCities: (state: string) => Promise<string[]>;
 }
 
 export interface iFormValue{

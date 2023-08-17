@@ -13,7 +13,7 @@ import './App.css';
 
 function App() {
 
-  const { error } = useUniversalApi();
+  const { error, getCities, stateOptions } = useUniversalApi();
 
   const handleFormSubmit = (formValue: iFormValue) => {
     console.log(buildPostString(formValue));
@@ -42,7 +42,7 @@ function App() {
       <div className='instructions'>
         Please enter your information using the form below: 
       </div>
-      <Form handleSubmit={handleFormSubmit}/>
+      <Form handleSubmit={handleFormSubmit} getCities={getCities}/>
     </div>
   );
 }

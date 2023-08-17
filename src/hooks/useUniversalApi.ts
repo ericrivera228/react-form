@@ -11,6 +11,8 @@ export const useUniversalApi = () => {
   // Access token needed to make the state and country calls
   const [ accessToken, setAccessToken ] = useState<string>();
 
+  const [ stateOptions, setStateOptions ] = useState<string[]>([]);
+
   // Fetch the access token on the initial load
   useEffect(() => {
     getAccessToken().then(
@@ -26,7 +28,7 @@ export const useUniversalApi = () => {
     if(accessToken){
       getUsaStates().then(
         (jsonStatesResponse) => {
-          console.log(jsonStatesResponse);
+          setStateOptions(jsonStatesResponse.map((x: any) => x.state_name));
         },
         (error: Error) => handleApiError(error.message)
       );
@@ -58,6 +60,18 @@ export const useUniversalApi = () => {
    */
   const getUsaStates = (): Promise<any> => {
     return fetch('https://www.universal-tutorial.com/api/states/United States', buildRequest(accessToken)).then((res) => handleResponse(res));
+  };
+
+  const getCities = (state: string): Promise<string[]> => {
+    return fetch(`https://www.universal-tutorial.com/api/cities/${state}`, buildRequest(accessToken)).then((res) => handleResponse(res)).then(
+      (jsonCitiesResponse) => {
+        return jsonCitiesResponse.map((x: any) => x.city_name);
+      },
+      (error: Error) => {
+        handleApiError(error.message);
+        return [];
+      }
+    );
   };
 
   /**
@@ -95,7 +109,9 @@ export const useUniversalApi = () => {
   };
 
   return {
-    error
+    error,
+    getCities,
+    stateOptions
   };
 
 };
