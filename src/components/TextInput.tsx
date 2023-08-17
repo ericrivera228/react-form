@@ -17,22 +17,35 @@ interface iTextInputProps{
 
 export const TextInput = ({ label, value, onValueChange, validationRule }: iTextInputProps) => {
   
+  // State varible that indicates if the value for this input is valid
   const [ isValid, setIsValid ] = useState(true);
 
+  // Convert the label to an id
   const id = labelToId(label);
 
+  /**
+   * Handler for when the value of this text input changes. If a validation rule was provided, and the 
+   * value is not empty, the value is checked against the validation rule. If validation fails, then
+   * this text input will be marked red. Validation is not ran for empty values, so the user isn't 
+   * annoyed with a bunch of red boxes when the form initially loads.
+   * 
+   * After validation, the parent handler is called.
+   * 
+   * @param event Source vent that triggered the onChange.
+   */
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 
+    // Pull the value out of the event
     const newValue = event.target.value;
 
-    // If the user has entered some information, and a validation method was passed, 
-    // check to see if the new value is valid. (If input is blank, don't do validation check)
+    // Run validation rule if necessary
     if(newValue && validationRule && !validationRule(newValue)){
       setIsValid(false);
     } else{
       setIsValid(true);
     }
 
+    // Call parent handler with new value
     onValueChange(newValue);
   };
   
