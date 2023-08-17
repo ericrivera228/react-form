@@ -42,7 +42,7 @@ function App() {
       <div className='instructions'>
         Please enter your information using the form below: 
       </div>
-      <Form handleSubmit={handleFormSubmit} getCities={getCities}/>
+      <Form stateOptions={stateOptions} handleSubmit={handleFormSubmit} getCities={getCities}/>
     </div>
   );
 }

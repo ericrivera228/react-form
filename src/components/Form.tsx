@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextInput } from './TextInput';
+import { DropDownList } from './DropDownList';
 
 export interface iFormProps{
+  stateOptions: string[];
   handleSubmit: (formValue: iFormValue) => void;
   getCities: (state: string) => Promise<string[]>;
 }
@@ -24,9 +26,21 @@ const emptyForm: iFormValue = {
   password: ''
 };
 
-export const Form = ({ handleSubmit }: iFormProps) => {
+export const Form = ({ handleSubmit, stateOptions, getCities }: iFormProps) => {
 
   const [ formValue, setFormValue ] = useState<iFormValue>(emptyForm);
+  const [ cityOptions, setCityOptions ] = useState<string[]>([]);
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      const data = await getCities(formValue.state);
+      setCityOptions(data);
+    };
+
+    fetchData();
+
+  }, [ formValue.state ]);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 
@@ -50,16 +64,17 @@ export const Form = ({ handleSubmit }: iFormProps) => {
    * @returns True if the whole form is valid, false if otherwise.
    */
   const isFormValid = () => {
+
+    let allFieldsHaveValue = true;
+
     Object.keys(formValue).forEach(key => {
       if(!formValue[key as keyof iFormValue]){
-        return false;
+        allFieldsHaveValue = false;
       }
     });
 
-    // If the code made it down here, then all inputs have a value
-    // Email has it's own addition rule, so at this point the validity
-    // of the wile form rests on the email field.
-    return isEmailValid(formValue.email);
+    // Form is valid if all the fields have a value, and email passes it's special validation
+    return allFieldsHaveValue && isEmailValid(formValue.email);
 
   };
 
@@ -79,7 +94,8 @@ export const Form = ({ handleSubmit }: iFormProps) => {
       <div>
         <TextInput label='First Name' value={formValue.firstName} onValueChange={(newValue: string) => onInputValueChange('firstName', newValue)}  />
         <TextInput label='Last Name' value={formValue.lastName} onValueChange={(newValue: string) => onInputValueChange('lastName', newValue)} />
-        <TextInput label='State' value={formValue.state} onValueChange={(newValue: string) => onInputValueChange('state', newValue)} />
+        {/* <TextInput label='State' value={formValue.state} onValueChange={(newValue: string) => onInputValueChange('state', newValue)} /> */}
+        <DropDownList label='State' value={formValue.state} options={stateOptions} />
         <TextInput label='City' value={formValue.city} onValueChange={(newValue: string) => onInputValueChange('city', newValue)} />
         <TextInput label='Email' value={formValue.email} onValueChange={(newValue: string) => onInputValueChange('email', newValue)} validationRule={isEmailValid} />
         <TextInput label='Password' value={formValue.password} onValueChange={(newValue: string) => onInputValueChange('password', newValue)}/>

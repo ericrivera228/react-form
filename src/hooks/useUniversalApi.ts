@@ -15,6 +15,8 @@ export const useUniversalApi = () => {
 
   // Fetch the access token on the initial load
   useEffect(() => {
+    console.log('Getting access token');
+
     getAccessToken().then(
       (jsonTokenResponse) => {
         setAccessToken((jsonTokenResponse as any).auth_token);
